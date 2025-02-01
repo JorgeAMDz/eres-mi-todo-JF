@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Valentín</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+    background-image: url('https://static.vecteezy.com/system/resources/previews/009/350/785/non_2x/happy-valentines-day-greeting-background-in-papercut-realistic-style-vector.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    position: relative;
+        }
+        .floating-images-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .floating-image {
+            position: absolute;
+            width: 200px;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            opacity: 0.7;
+            animation: floatAnimation 5s infinite alternate ease-in-out;
+        }
+        @keyframes floatAnimation {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-20px);
+            }
+        }
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            opacity: 0.7;
+            animation: floatHeart 3s infinite ease-in-out;
+        }
+        @keyframes floatHeart {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
+        .message {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            position: absolute;
+            top: 20%;
+            opacity: 0;
+            transition: opacity 2s;
+            z-index: 10;
+        }
+        .button-container {
+            position: absolute;
+            top: 50%;
+            width: 300px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .yes {
+            background-color: green;
+            color: white;
+        }
+        .no {
+            background-color: red;
+            color: white;
+            position: absolute;
+        }
+        .hidden {
+    display: none;
+}
+#loveMessage {
+    position: absolute;
+    top: 50%;
+    text-align: center;
+    color: white;
+    font-size: 24px;
+}
+.love-text {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.love-gif {
+    width: 200px; /* Ajusta el tamaño del GIF */
+    border-radius: 10px;
+}
+.heart {
+    font-size: 24px;
+    position: absolute;
+    opacity: 1;
+    animation: scaleHeart 2s forwards ease-in-out;
+}
+
+@keyframes scaleHeart {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="floating-images-container" id="floatingImages"></div>
+    <div class="hearts" id="heartsContainer"></div>
+    <div class="message" id="message">¿Quieres ser mi San Valentín? 💖</div>
+    <div class="button-container">
+        <button class="btn yes" onclick="showLoveMessage()">Sí</button>
+        <button  class="btn no" id="noButton">No</button>
+    </div>
+
+    <div id="loveMessage" class="hidden">
+        <p class="love-text">¡Sabía que dirías que sí! ❤️</p>
+        <p class="love-text">Mi gordita</p>
+        <img src="https://media.tenor.com/PXKZhCEfEfsAAAAj/bubu-bubu-dudu.gif" alt="Love GIF" class="love-gif">
+    </div>
+
+    <script>
+        function showLoveMessage() {
+    // Oculta todos los elementos excepto el mensaje y el fondo
+    document.querySelector('.floating-images-container').style.display = 'none';
+    document.querySelector('.hearts').style.display = 'none';
+    document.querySelector('.button-container').style.display = 'none';
+    document.getElementById('loveMessage').classList.remove('hidden'); // Muestra el mensaje
+
+    // Crea muchos corazones flotantes
+    for (let i = 0; i < 30; i++) { // Puedes ajustar la cantidad aquí (30 es solo un ejemplo)
+        createStickerHeart();
+    }
+}
+
+// Función para crear corazones como pegatinas
+function createStickerHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.position = "absolute";
+    heart.style.left = Math.random() * 100 + "vw"; // Posición aleatoria en el ancho de la pantalla
+    heart.style.top = Math.random() * 100 + "vh";  // Posición aleatoria en el alto de la pantalla
+    heart.style.fontSize = Math.random() * 30 + 20 + "px"; // Tamaño aleatorio
+    heart.style.opacity = 1;
+    heart.style.animation = "none"; // Desactiva la animación de flotado
+    document.body.appendChild(heart);
+
+    // Animación para hacer que los corazones desaparezcan lentamente
+    setTimeout(() => {
+        heart.style.transition = "transform 2s, opacity 2s";
+        heart.style.transform = "scale(0)"; // Hace que los corazones se "deshagan"
+        heart.style.opacity = "0";
+    }, 10); // El retraso de 10ms es para que se ejecute después de ser creado
+
+    // Remueve el corazón después de 2 segundos
+    setTimeout(() => {
+        heart.remove();
+    }, 3000);
+}
+
+        setTimeout(() => {
+            document.getElementById("message").style.opacity = 1;
+        }, 2000);
+
+        const noButton = document.getElementById("noButton");
+        const container = document.querySelector(".button-container");
+        
+        noButton.addEventListener("mouseover", function() {
+            const containerRect = container.getBoundingClientRect();
+            const x = Math.random() * (containerRect.width - noButton.offsetWidth) * 1;
+            const y = Math.random() * (containerRect.height - noButton.offsetHeight) * 1;
+            noButton.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        
+        const images = [
+            'https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/475642142_2034169243766742_2271336825343422932_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=108&ccb=1-7&_nc_sid=669761&_nc_eui2=AeF7oa4ltmtF8OYnfBmkJeuF3nUutvSE8FnedS629ITwWXstkYO7aVI1RviMefrwglr0y9pLCi_r1xdDacVjy25d&_nc_ohc=L7T1B1tfzF0Q7kNvgE-VpuX&_nc_oc=AdgvY13tGSBURUkP9vXN3Kn9iEUhxzO71eJP10oRY2l7cs5fR5hIZYDPsZF3kpv-SiA&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=AqjKoCFg3VctQuSUDX8KgVO&oh=00_AYDUuxFMYsOkzDqBi7XAzGvDeVtjsHmRnuF5GEizaJPigg&oe=67A35D76',
+            'https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/475436443_2034170393766627_6124727264539738964_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=669761&_nc_eui2=AeEU08Lz5YT1KubOcyNeAF8IyKF_U2AxBanIoX9TYDEFqbmSM559TwiUI59ATdG5PFLWpbpJ8bG6J6OXcpq9L9of&_nc_ohc=94VD6vtwZ0kQ7kNvgFjFaGo&_nc_oc=AdidUPMo0fgfCDYygwRwwQyrR3lnYqc5O7zP9z4ZCensR5fsx4q0Y1ClsqCNs6wbWpo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=AqjKoCFg3VctQuSUDX8KgVO&oh=00_AYA0DYE1oitqRloCTrCU_LozsLcvjM7idX08O826FG5tUw&oe=67A35B62',
+            'https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/475790263_2034170047099995_830304582806226038_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=106&ccb=1-7&_nc_sid=669761&_nc_eui2=AeFJNKHGJHLBKXtDlOUppf1eNMJbPMzH8h80wls8zMfyH2UIBEooXW2hmN4SPGciM9z46EJH2vdUbB-HOOwH-mjG&_nc_ohc=EJNI_3FiMt0Q7kNvgFEXfGU&_nc_oc=Adjq0vjc6FrVJ1U8RxgX6rE9Mb2weJy9LYzhXjBB51ro8iOhgwXf6z-UN5LAsafnm1U&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=AqjKoCFg3VctQuSUDX8KgVO&oh=00_AYAR81hN5idnvAwOYMDOBhYXtGPUOQ1dSkCMfC4coKZeNg&oe=67A33F46',
+            'https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/475753515_2034170417099958_1300410958630451000_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=669761&_nc_eui2=AeFoIb9UfDHe-JKQtCrmJ_7JJyOyn0eqJ3UnI7KfR6ondUldyEmDgObRIZ81747l7MXsQg_YPIZfEdXVe1jZsgin&_nc_ohc=_fIwxHr_Gw8Q7kNvgEDfZk7&_nc_oc=AdhVbt00Q0kB-aGZuSxVF9Lap1Aja2weANE308yQu8M_ODGaQNvydYqTFeAlF2E1umI&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=AqjKoCFg3VctQuSUDX8KgVO&oh=00_AYDDiOH8qD5cdcdEVMt4dPy9HgZF4EkUS4dzIAUBePW4vg&oe=67A35AB2',
+            'https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/475767480_2034170183766648_1617320893147030894_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=669761&_nc_eui2=AeEEwMd40KbQVFpbQ6Cxec2aYBF59bUQf4BgEXn1tRB_gHbz5LINDg7qV1Zrbn136dgiEJvIw0DSrJlmGt_4Sk_f&_nc_ohc=t-YyoN1iSqMQ7kNvgGveJUP&_nc_oc=AdhOQqw5Yx3X0Ha8K4VhFCcdSGY-Qlj7tZrYIdEHO6QYiRGnAW0GvIs3hRTTewxxJH0&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=AqjKoCFg3VctQuSUDX8KgVO&oh=00_AYBkPhVkaCEoCanxoGbjDBw-t_EtLFbbiz735dzL9FuBog&oe=67A36C32',
+            'https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/475652634_2034169073766759_4197831094517980992_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=669761&_nc_eui2=AeG6ZRSTm4TgFZQy29dt158HxboxKea9eYfFujEp5r15h4SfT9upF8g7M70sb_fXWsbYMac_kmr8lpl0c6NONgPG&_nc_ohc=zyLvDWHnsBMQ7kNvgFgDOyX&_nc_oc=AdgZfVDCE5NOiUBr9g933WS3YxMzkOhmNiPdrod_6X7LkH1cxJrWuMf3pk-3WMVPQHE&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=AqjKoCFg3VctQuSUDX8KgVO&oh=00_AYCY0_59uTjM9RkxGhMRvL0afE64Mu1ZM1yieuGGiJ0rBg&oe=67A3697A',
+            'https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/475151966_2030768654106801_2997183712018575066_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=106&ccb=1-7&_nc_sid=669761&_nc_eui2=AeF4dcyqrTtkKbh-AN57etLinJYQ1COBeVWclhDUI4F5VTVr0AEY8FXVkkCoJ2J2FPedoM3s00YL6pj1eIr2Bvir&_nc_ohc=P9LVEg_qKUoQ7kNvgGwYQpU&_nc_oc=Adi1gBISZU4yvDwkdn2zMpBFo9X5ag3MD7n1KtzZXPPHprtlLITsnpjpZHtj01wx5ss&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=AqjKoCFg3VctQuSUDX8KgVO&oh=00_AYCxIf4w9or4lD4YBexMR3e3C3CN8nrdZG54id8l1iU93g&oe=67A35798',
+            'https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/475124185_2030768834106783_5944073309655297461_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=106&ccb=1-7&_nc_sid=669761&_nc_eui2=AeFYtXEGNLgHZ4DsK_fZp9xY-Hg7Hk-CESv4eDseT4IRK81s4rwMolUrrPpyvSov5HfQxpDYks-q3Vbk-GfEb-V_&_nc_ohc=DKa0kKoft8sQ7kNvgH6ziM8&_nc_oc=Adiustgnvtshua2sn3dtOPQ6imIgukS_pi_BJgBRDyaLisKZO8F6O4UPaU35JLvrLOw&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=AqjKoCFg3VctQuSUDX8KgVO&oh=00_AYDvZjDdCkczN2DpdcpUhxIhm1csLX0QVPFGrlLJSxqgeQ&oe=67A3489B'
+        ];
+
+        function createFloatingImages() {
+            const container = document.getElementById("floatingImages");
+            container.innerHTML = "";
+            images.forEach((src, index) => {
+                const img = document.createElement("div");
+                img.classList.add("floating-image");
+                img.style.backgroundImage = `url(${src})`;
+                img.style.left = Math.random() * 80 + "vw";
+                img.style.top = Math.random() * 80 + "vh";
+                container.appendChild(img);
+            });
+        }
+        
+        setInterval(createFloatingImages, 3000);
+        createFloatingImages();
+
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.top = Math.random() * 100 + "vh";
+            document.getElementById("heartsContainer").appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+        setInterval(createHeart, 100);
+
+        
+    </script>
+
+</body>
+
+</html>
